@@ -15,7 +15,8 @@ Setiap tugas berjalan **1 minggu** sejak LKM dibagikan.
 | P04 — Milik kelas dan milik objek: konstanta, `classmethod`, `staticmethod` | Kamis, 22 Oktober 2026 | Rabu, 28 Oktober 2026, pukul 23.59 WIB (sudah lewat) |
 | P05 — Relasi antar kelas: asosiasi, agregasi, komposisi, diagram kelas | Kamis, 29 Oktober 2026 | Rabu, 4 November 2026, pukul 23.59 WIB (sudah lewat) |
 | P06 — Pewarisan: hierarki `AlatTani`, `super()`, `__str__`/`__repr__`/`__eq__`/`__hash__` | Kamis, 5 November 2026 | Rabu, 11 November 2026, pukul 23.59 WIB (sudah lewat) |
-| P07 — Polimorfisme: pewarisan, duck typing, `match`, `singledispatch` | Kamis, 12 November 2026 | **Rabu, 18 November 2026, pukul 23.59 WIB** |
+| P07 — Polimorfisme: pewarisan, duck typing, `match`, `singledispatch` | Kamis, 12 November 2026 | Rabu, 18 November 2026, pukul 23.59 WIB (sudah lewat) |
+| P08 — Ujian Tengah Semester (Pertemuan 1–7) | Kamis, 19 November 2026 | di laboratorium, 120 menit; dikumpulkan lewat LMS |
 
 **P04 berisi Tugas 1 (individu)** yang dinilai terpisah pada nilai akhir — kerjakan sendiri; kemiripan kode
 ditelusuri lewat riwayat commit. Rinciannya di `P04/materi/Panduan-Praktikum-P04.pdf` bagian 7: kelas `Kios`
@@ -55,6 +56,12 @@ penerjemah perintah konsol dengan `match` (minimal satu penjaga `if` dan satu `*
 kelasmu), satu uji yang membuat jenis pegawai keempat di dalam badan ujinya sendiri, penerjemah perintah konsol minimal
 lima cabang, satu fungsi `singledispatch` untuk tiga tipe bawaan, minimal lima belas uji dengan lima penolakan. Tanda
 versi `p07-tugas3`; tenggat sama dengan P07 (hari sebelum UTS).
+
+**P08 adalah Ujian Tengah Semester** (bobot 15%), rinciannya di `P08/materi/UTS-1-Kisi-kisi.pdf`: berbasis komputer,
+luring, tanpa internet dan tanpa asisten AI, 120 menit (Bagian A prediksi keluaran 40 menit, Bagian B menulis kode
+80 menit). Yang boleh dipakai hanya `P08/materi/UTS-Berkas-Awal/` dan satu lembar catatan tulis tangan. Kode Bagian B
+wajib lolos `periksa_pbo.py --profil p06` dan mypy (kegagalan mengurangi 15 poin). Seluruh folder dikompres menjadi
+`UTS-<NIM>.zip` dan diunggah ke LMS, **bukan** lewat Pull Request ke repo ini.
 
 Keterlambatan dihitung dari **waktu Pull Request dibuat** (dicatat GitHub) dan dikurangi
 **5 poin per hari**. Commit di fork saja belum dihitung mengumpulkan — buat PR-nya sebelum tenggat.
@@ -97,6 +104,8 @@ P06/
 P07/
 ├── materi/                     Panduan, LKM, README, periksa_pbo.py, pyproject.toml, rantai_if.py, bebek_rapuh.py
 └── tugas/NAMA_LENGKAP-NIM/     src/, tests/, periksa_pbo.py, pyproject.toml, AI_USAGE.md, LKM-P07.pdf (Tugas 3 ikut di sini)
+P08/
+└── materi/                     UTS-1-Kisi-kisi.pdf, UTS-Berkas-Awal/ (kerangka kosong untuk ujian; pengumpulan lewat LMS)
 ```
 
 ## Cara mengumpulkan tugas
