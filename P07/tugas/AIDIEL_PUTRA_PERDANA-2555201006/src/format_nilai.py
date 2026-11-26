@@ -1,21 +1,26 @@
+from __future__ import annotations
+
 from functools import singledispatch
 
 
 @singledispatch
-def sebagai_teks(nilai: object) -> str:
-    """Bentuk umum, dipakai bila tidak ada bentuk khusus untuk tipe ini."""
+def format_nilai(nilai: object) -> str:
+    """Format bawaan untuk tipe umum."""
     return str(nilai)
 
 
-@sebagai_teks.register(int)
-def _bilangan_bulat(nilai: int) -> str:
+@format_nilai.register(int)
+def _format_int(nilai: int) -> str:
     return "Rp" + f"{nilai:,}".replace(",", ".")
 
 
-@sebagai_teks.register(float)
-def _bilangan_pecahan(nilai: float) -> str:
+@format_nilai.register(float)
+def _format_float(nilai: float) -> str:
     return f"{nilai * 100:.1f}%"
 
-@sebagai_teks.register(list)
-def _daftar(nilai: list[object]) -> str:
-    return ", ".join(sebagai_teks(butir) for butir in nilai)
+
+@format_nilai.register(list)
+def _format_list(nilai: list[object]) -> str:
+    if not nilai:
+        return "-"
+    return ", ".join(format_nilai(item) for item in nilai)

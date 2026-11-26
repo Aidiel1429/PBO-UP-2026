@@ -1,41 +1,48 @@
-from src.model.daftar_harga import DaftarHarga
+from __future__ import annotations
+
+from src.format_nilai import format_nilai
+from src.model.penyusun_laporan import PenyusunLaporan
 
 
 class PerintahKonsol:
-    """Penerjemah perintah konsol untuk daftar harga alat."""
+    """Penerjemah perintah konsol sederhana berbasis structural pattern matching."""
 
     BANTUAN: str = (
-        "Perintah tersedia: bantuan, ?, daftar <hari>, "
-        "harga <kode> <hari>, termurah <hari>"
+        "Perintah tersedia:\n"
+        "  bantuan | ?           -> tampilkan bantuan\n"
+        "  rekap <hari>          -> rekap penghasilan seluruh pegawai\n"
+        "  tertinggi <hari>      -> pegawai dengan penghasilan tertinggi\n"
+        "  terendah <hari>       -> pegawai dengan penghasilan terendah\n"
+        "  total <hari>          -> total penghasilan seluruh pegawai"
     )
 
-    def __init__(self, daftar: DaftarHarga) -> None:
-        self._daftar = daftar
-
-    def _harga_satu_alat(self, kode: str, hari: int) -> str:
-        for nama, biaya in self._daftar.biaya_semua(hari):
-            if nama.upper().startswith(f"[{kode}]") or kode in nama.upper():
-                return f"{nama}, {hari} hari: Rp{biaya:,}".replace(",", ".")
-        return f"Alat berkode {kode} tidak ada dalam daftar."
+    def __init__(self, laporan: PenyusunLaporan) -> None:
+        self._laporan = laporan
 
     def jalankan(self, perintah: str) -> str:
-        match perintah.strip().lower().split():
+        tokens = perintah.strip().lower().split()
+        match tokens:
             case []:
                 return "Perintah kosong. Ketik 'bantuan'."
             case ["bantuan"] | ["?"]:
-                return PerintahKonsol.BANTUAN
-            case ["daftar", hari] if hari.isdigit():
-                jumlah_hari = int(hari)
+                return self.BANTUAN
+            case ["rekap", hari] if hari.isdigit() and int(hari) >= 0:
                 baris = [
-                    f"- {nama}: Rp{biaya:,}".replace(",", ".")
-                    for nama, biaya in self._daftar.biaya_semua(jumlah_hari)
+                    f"{ket}: {format_nilai(gaji)}"
+                    for ket, gaji in self._laporan.rekap_penghasilan(int(hari))
                 ]
                 return "\n".join(baris)
-            case ["harga", kode, hari] if hari.isdigit():
-                return self._harga_satu_alat(kode.upper(), int(hari))
-            case ["termurah", hari] if hari.isdigit():
-                alat = self._daftar.termurah(int(hari))
-                return f"Termurah untuk {hari} hari: {alat.nama}"
-            case [perintah_pertama, *_]:
-                return f"Perintah '{perintah_pertama}' tidak dikenal."
-        return "Perintah tidak dikenali."
+            case ["tertinggi", hari] if hari.isdigit() and int(hari) >= 0:
+                pegawai = self._laporan.tertinggi(int(hari))
+                gaji = pegawai.hitung_penghasilan(int(hari))
+                return f"Tertinggi ({hari} hari): {pegawai.keterangan()} -> {format_nilai(gaji)}"
+            case ["terendah", hari] if hari.isdigit() and int(hari) >= 0:
+                pegawai = self._laporan.terendah(int(hari))
+                gaji = pegawai.hitung_penghasilan(int(hari))
+                return f"Terendah ({hari} hari): {pegawai.keterangan()} -> {format_nilai(gaji)}"
+            case ["total", hari] if hari.isdigit() and int(hari) >= 0:
+                total_gaji = self._laporan.total(int(hari))
+                return f"Total ({hari} hari): {format_nilai(total_gaji)}"
+            case [perintah_asing, *_]:
+                return f"Perintah '{perintah_asing}' tidak dikenal atau format tidak valid. Ketik 'bantuan'."
+        return "Perintah tidak dikenali. Ketik 'bantuan'."
